@@ -62,7 +62,8 @@
   "devDependencies": {
     "auto-changelog": "^2.4.0",
     "commitizen": "^4.2.6",
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "git-flow": "^0.2.0"
   },
   "config": {
     "commitizen": {
