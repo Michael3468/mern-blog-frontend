@@ -1,6 +1,6 @@
 {
   "name": "react-blog",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -14,7 +14,6 @@
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
     "easymde": "^2.16.1",
-    "prettier": "^2.6.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.32.0",
@@ -63,7 +62,8 @@
     "auto-changelog": "^2.4.0",
     "commitizen": "^4.2.6",
     "cz-conventional-changelog": "^3.3.0",
-    "git-flow": "^0.2.0"
+    "git-flow": "^0.2.0",
+    "prettier": "^2.8.3"
   },
   "config": {
     "commitizen": {
