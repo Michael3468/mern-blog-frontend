@@ -1,6 +1,6 @@
 {
-  "name": "react-blog",
-  "version": "0.3.0",
+  "name": "mern-blog-frontend",
+  "version": "0.4.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
