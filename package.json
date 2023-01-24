@@ -1,5 +1,5 @@
 {
-  "name": "react-blog",
+  "name": "mern-blog-frontend",
   "version": "0.3.0",
   "private": true,
   "dependencies": {
