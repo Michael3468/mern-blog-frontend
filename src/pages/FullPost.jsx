@@ -5,6 +5,7 @@ import { Post } from '../components/Post';
 import { Index } from '../components/AddComment';
 import { CommentsBlock } from '../components/CommentsBlock';
 import axios from '../axios';
+import ReactMarkdown from 'react-markdown';
 
 export const FullPost = () => {
   const [data, setData] = React.useState('');
@@ -20,7 +21,7 @@ export const FullPost = () => {
       })
       .catch((err) => {
         console.warn(err);
-        alert('Ошибка при получении статьи');
+        alert('An error occurred when getting an article');
       });
   }, [id]);
 
@@ -33,7 +34,7 @@ export const FullPost = () => {
       <Post
         id={data.id}
         title={data.title}
-        imageUrl={data.imageUrl}
+        imageUrl={data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ''}
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
@@ -41,7 +42,7 @@ export const FullPost = () => {
         tags={data.tags}
         isFullPost
       >
-        <p>{data.text}</p>
+        <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
         items={[
@@ -50,7 +51,7 @@ export const FullPost = () => {
               fullName: 'Вася Пупкин',
               avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
             },
-            text: 'Это тестовый комментарий 555555',
+            text: 'Test comment',
           },
           {
             user: {

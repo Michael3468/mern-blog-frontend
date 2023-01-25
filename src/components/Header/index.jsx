@@ -12,7 +12,7 @@ export const Header = () => {
   const isAuth = useSelector(selectIsAuth);
 
   const onClickLogout = () => {
-    if (window.confirm('Вы действительно хотите выйти')) {
+    if (window.confirm('Do you really want to logout?')) {
       dispatch(logout());
       window.localStorage.removeItem('token');
     }
@@ -28,20 +28,20 @@ export const Header = () => {
           <div className={styles.buttons}>
             {isAuth ? (
               <>
-                <Link to="/posts/create">
-                  <Button variant="contained">Написать статью</Button>
+                <Link to="/add-post">
+                  <Button variant="contained">Create an article</Button>
                 </Link>
                 <Button onClick={onClickLogout} variant="contained" color="error">
-                  Выйти
+                  Logout
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="outlined">Войти</Button>
+                  <Button variant="outlined">Log in</Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="contained">Создать аккаунт</Button>
+                  <Button variant="contained">Create an account</Button>
                 </Link>
               </>
             )}
