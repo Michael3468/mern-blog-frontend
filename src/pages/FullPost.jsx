@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Post } from '../components/Post';
@@ -8,6 +9,7 @@ import axios from '../axios';
 import ReactMarkdown from 'react-markdown';
 
 export const FullPost = () => {
+  const userData = useSelector((state) => state.auth.data);
   const [data, setData] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
@@ -32,7 +34,7 @@ export const FullPost = () => {
   return (
     <>
       <Post
-        id={data.id}
+        id={data._id}
         title={data.title}
         imageUrl={data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ''}
         user={data.user}
@@ -40,6 +42,7 @@ export const FullPost = () => {
         viewsCount={data.viewsCount}
         commentsCount={3}
         tags={data.tags}
+        isEditable={userData?._id === data.user._id}
         isFullPost
       >
         <ReactMarkdown children={data.text} />

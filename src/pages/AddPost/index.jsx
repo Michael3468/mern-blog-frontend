@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
 
 import axios from '../../axios';
 import { selectIsAuth } from '../../redux/slices/auth';
@@ -14,6 +14,7 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 
 export const AddPost = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const [isLoading, setLoading] = React.useState(false);
@@ -22,6 +23,8 @@ export const AddPost = () => {
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
   const inputFileRef = React.useRef(null);
+
+  const isEditing = Boolean(id);
 
   const handleChangeFile = async (event) => {
     try {
@@ -55,14 +58,35 @@ export const AddPost = () => {
         imageUrl,
       };
 
-      const { data } = await axios.post('/posts', fields);
-      const id = data._id;
-      navigate(`/posts/${id}`);
+      const { data } = isEditing
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post('/posts', fields);
+
+      const _id = isEditing ? id : data._id;
+
+      navigate(`/posts/${_id}`);
     } catch (err) {
       console.warn(err);
-      alert('An error occurred when creating an article');
+      alert('An error occurred when creating an post');
     }
   };
+
+  React.useEffect(() => {
+    if (id) {
+      axios
+        .get(`/posts/${id}`)
+        .then(({ data }) => {
+          setTitle(data.title);
+          setText(data.text);
+          setImageUrl(data.imageUrl);
+          setTags(data.tags.join(','));
+        })
+        .catch((err) => {
+          console.warn(err);
+          alert('An error occurred when getting post');
+        });
+    }
+  }, [id]);
 
   const options = React.useMemo(
     () => ({
@@ -102,7 +126,7 @@ export const AddPost = () => {
       <TextField
         classes={{ root: styles.title }}
         variant="standard"
-        placeholder="Article title..."
+        placeholder="Add post title..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
@@ -112,13 +136,13 @@ export const AddPost = () => {
         onChange={(e) => setTags(e.target.value)}
         classes={{ root: styles.tags }}
         variant="standard"
-        placeholder="Tags"
+        placeholder="Add tags separated with comma"
         fullWidth
       />
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          Publish
+          {isEditing ? 'Save' : 'Publish'}
         </Button>
         <a href="/">
           <Button size="large">Cancel</Button>
