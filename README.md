@@ -1,7 +1,12 @@
 ```
 node 18.13.0
 ```
-
+# MERN-blog-frontend
+Add to the root folder of your project `.env` file with `REACT_APP_` variable pointing to **url with port** listening by your backend app.
+```
+# example
+REACT_APP_SERVER_URL=http://localhost:4444
+```
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
