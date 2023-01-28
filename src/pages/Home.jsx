@@ -14,6 +14,7 @@ import { fetchPostsByDate, fetchPostsByPopularity, fetchTags } from '../redux/sl
 import { getDayMonthYear } from '../libs/getDayMonthYear';
 
 export const Home = () => {
+  const [activeTab, setActiveTab] = React.useState(null);
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector((state) => state.posts);
@@ -26,19 +27,21 @@ export const Home = () => {
   React.useEffect(() => {
     if (pathname === '/') {
       dispatch(fetchPostsByDate());
+      setActiveTab(0);
     } else if (pathname === '/popular-posts') {
       dispatch(fetchPostsByPopularity());
+      setActiveTab(1);
     }
     dispatch(fetchTags());
   }, [dispatch, pathname]);
 
   return (
     <>
-      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
+      <Tabs value={activeTab} style={{ marginBottom: 15 }} aria-label="basic tabs example">
         <Link to="/">
-          <Tab label="New" />
+          <Tab label="New" onClick={() => setActiveTab(0)} />
         </Link>
-        <Link to="/popular-posts">
+        <Link to="/popular-posts" onClick={() => setActiveTab(1)}>
           <Tab label="Popular" />
         </Link>
       </Tabs>
