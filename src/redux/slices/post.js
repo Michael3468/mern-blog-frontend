@@ -15,6 +15,11 @@ export const fetchPostsByDate = createAsyncThunk('posts/fetchPostsByDate', async
   return data;
 });
 
+export const fetchPostsByPopularity = createAsyncThunk('posts/fetchPostsByPopularity', async () => {
+  const { data } = await axios.get('/popular-posts');
+  return data;
+});
+
 const initialState = {
   posts: {
     items: [],
@@ -41,6 +46,20 @@ const postsSlice = createSlice({
       state.posts.status = 'loaded';
     },
     [fetchPostsByDate.rejected]: (state) => {
+      state.posts.items = [];
+      state.posts.status = 'error';
+    },
+
+    // get posts by popularity
+    [fetchPostsByPopularity.pending]: (state) => {
+      state.posts.items = [];
+      state.posts.status = 'loading';
+    },
+    [fetchPostsByPopularity.fulfilled]: (state, action) => {
+      state.posts.items = action.payload;
+      state.posts.status = 'loaded';
+    },
+    [fetchPostsByPopularity.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = 'error';
     },

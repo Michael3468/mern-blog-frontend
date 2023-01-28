@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchPostsByDate, fetchTags } from '../redux/slices/post';
+import { fetchPostsByDate, fetchPostsByPopularity, fetchTags } from '../redux/slices/post';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -20,11 +20,12 @@ export const Home = () => {
   const isTagsLoading = tags.status === 'loading';
 
   const { pathname } = useLocation();
-  console.log(pathname); // TODO
 
   React.useEffect(() => {
     if (pathname === '/') {
       dispatch(fetchPostsByDate());
+    } else if (pathname === '/popular-posts') {
+      dispatch(fetchPostsByPopularity());
     }
     dispatch(fetchTags());
   }, [dispatch, pathname]);
@@ -35,7 +36,9 @@ export const Home = () => {
         <Link to="/">
           <Tab label="Новые" />
         </Link>
-        <Tab label="Популярные" />
+        <Link to="/popular-posts">
+          <Tab label="Популярные" />
+        </Link>
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
