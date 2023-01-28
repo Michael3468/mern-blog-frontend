@@ -1,6 +1,6 @@
 {
   "name": "mern-blog-frontend",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -31,7 +31,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cm": "cz",
-    "version": "auto-changelog -p && git add HISTORY.md"
+    "version": "auto-changelog -p && git add HISTORY.md",
+    "release-same-version": "git flow release start next && git flow release finish -n next",
+    "release-minor": "git flow release start next && npm version minor && git flow release finish -n next",
+    "release-patch": "git flow release start next && npm version patch && git flow release finish -n next"
   },
   "auto-changelog": {
     "output": "HISTORY.md",

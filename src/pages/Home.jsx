@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -8,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchPosts, fetchTags } from '../redux/slices/post';
+import { fetchPostsByDate, fetchPostsByPopularity, fetchTags } from '../redux/slices/post';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -18,16 +19,26 @@ export const Home = () => {
   const isPostLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
 
+  const { pathname } = useLocation();
+
   React.useEffect(() => {
-    dispatch(fetchPosts());
+    if (pathname === '/') {
+      dispatch(fetchPostsByDate());
+    } else if (pathname === '/popular-posts') {
+      dispatch(fetchPostsByPopularity());
+    }
     dispatch(fetchTags());
-  }, [dispatch]);
+  }, [dispatch, pathname]);
 
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
-        <Tab label="Новые" />
-        <Tab label="Популярные" />
+        <Link to="/">
+          <Tab label="Новые" />
+        </Link>
+        <Link to="/popular-posts">
+          <Tab label="Популярные" />
+        </Link>
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
