@@ -34,10 +34,10 @@ export const Home = () => {
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Link to="/">
-          <Tab label="Новые" />
+          <Tab label="New" />
         </Link>
         <Link to="/popular-posts">
-          <Tab label="Популярные" />
+          <Tab label="Popular" />
         </Link>
       </Tabs>
       <Grid container spacing={4}>

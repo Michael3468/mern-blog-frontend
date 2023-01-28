@@ -1,8 +1,8 @@
-import React from "react";
-import Stack from "@mui/material/Stack";
-import Skeleton from "@mui/material/Skeleton";
+import React from 'react';
+import Stack from '@mui/material/Stack';
+import Skeleton from '@mui/material/Skeleton';
 
-import styles from "./Post.module.scss";
+import styles from './Post.module.scss';
 
 export const PostSkeleton = () => {
   return (
@@ -11,12 +11,7 @@ export const PostSkeleton = () => {
         <Skeleton variant="rectangular" width="100%" height={300} />
         <div className={styles.skeletonContent}>
           <div className={styles.skeletonUser}>
-            <Skeleton
-              variant="circular"
-              width={40}
-              height={40}
-              style={{ marginRight: 10 }}
-            />
+            <Skeleton variant="circular" width={40} height={40} style={{ marginRight: 10 }} />
             <div className={styles.skeletonUserDetails}>
               <Skeleton variant="text" width={60} height={20} />
               <Skeleton variant="text" width={100} height={15} />
