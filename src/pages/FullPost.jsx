@@ -8,6 +8,8 @@ import { CommentsBlock } from '../components/CommentsBlock';
 import axios from '../axios';
 import ReactMarkdown from 'react-markdown';
 
+import { getDayMonthYear } from '../libs/getDayMonthYear';
+
 export const FullPost = () => {
   const userData = useSelector((state) => state.auth.data);
   const [data, setData] = React.useState('');
@@ -38,7 +40,7 @@ export const FullPost = () => {
         title={data.title}
         imageUrl={data.imageUrl ? `${process.env.REACT_APP_SERVER_URL}${data.imageUrl}` : ''}
         user={data.user}
-        createdAt={data.createdAt}
+        createdAt={getDayMonthYear(data.createdAt)}
         viewsCount={data.viewsCount}
         commentsCount={3}
         tags={data.tags}
