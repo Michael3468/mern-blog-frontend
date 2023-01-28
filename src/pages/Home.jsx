@@ -11,6 +11,8 @@ import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 import { fetchPostsByDate, fetchPostsByPopularity, fetchTags } from '../redux/slices/post';
 
+import { getDayMonthYear } from '../libs/getDayMonthYear';
+
 export const Home = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
@@ -51,7 +53,7 @@ export const Home = () => {
                 title={obj.title}
                 imageUrl={obj.imageUrl ? `${process.env.REACT_APP_SERVER_URL}${obj.imageUrl}` : ''}
                 user={obj.user}
-                createdAt={obj.createdAt}
+                createdAt={getDayMonthYear(obj.createdAt)}
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
