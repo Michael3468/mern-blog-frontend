@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -9,7 +9,12 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchPostsByDate, fetchPostsByPopularity, fetchTags } from '../redux/slices/post';
+import {
+  fetchPostsByDate,
+  fetchPostsByPopularity,
+  fetchPostsWithTagByDate,
+  fetchTags,
+} from '../redux/slices/post';
 
 import { getDayMonthYear } from '../libs/getDayMonthYear';
 
@@ -24,7 +29,10 @@ export const Home = () => {
 
   const { pathname } = useLocation();
 
+  const { tagname } = useParams();
+
   React.useEffect(() => {
+    // TODO switch case +
     if (pathname === '/') {
       dispatch(fetchPostsByDate());
       setActiveTab(0);
@@ -32,8 +40,14 @@ export const Home = () => {
       dispatch(fetchPostsByPopularity());
       setActiveTab(1);
     }
+    // TODO switch case -
+
+    if (tagname) {
+      dispatch(fetchPostsWithTagByDate(tagname));
+    }
+
     dispatch(fetchTags());
-  }, [dispatch, pathname]);
+  }, [dispatch, pathname, tagname]);
 
   return (
     <>
