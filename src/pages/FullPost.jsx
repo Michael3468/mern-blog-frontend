@@ -9,12 +9,14 @@ import axios from '../axios';
 import ReactMarkdown from 'react-markdown';
 
 import { getDayMonthYear } from '../libs/getDayMonthYear';
+import { selectIsAuth } from '../redux/slices/auth';
 
 export const FullPost = () => {
   const userData = useSelector((state) => state.auth.data);
   const [data, setData] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
+  const isAuth = useSelector(selectIsAuth);
 
   React.useEffect(() => {
     axios
@@ -68,7 +70,7 @@ export const FullPost = () => {
         ]}
         isLoading={false}
       >
-        <Index />
+        {isAuth && <Index id={data._id} />}
       </CommentsBlock>
     </>
   );
