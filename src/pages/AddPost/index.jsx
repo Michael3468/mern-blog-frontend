@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, Navigate, useParams } from 'react-router-dom';
+import { useNavigate, Navigate, useParams, Link } from 'react-router-dom';
 
 import axios from '../../axios';
 import { selectIsAuth } from '../../redux/slices/auth';
@@ -148,9 +148,9 @@ export const AddPost = () => {
         <Button onClick={onSubmit} size="large" variant="contained">
           {isEditing ? 'Save' : 'Publish'}
         </Button>
-        <a href="/">
+        <Link to="/">
           <Button size="large">Cancel</Button>
-        </a>
+        </Link>
       </div>
     </Paper>
   );
