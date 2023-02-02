@@ -27,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/tags/:tagname" element={<Home />} />
+          <Route path='/comment-create' element={<FullPost />} />
         </Routes>
       </Container>
     </>
