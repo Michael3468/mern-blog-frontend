@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
@@ -23,6 +22,7 @@ export const Header = () => {
       <Container maxWidth="lg">
         <div className={styles.inner}>
           <Link className={styles.logo} to="/">
+            {/* TODO fix paddings */}
             <div>MERN BLOG</div>
           </Link>
           <div className={styles.buttons}>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
@@ -35,6 +34,7 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
+  // TODO on Remove post remove its comments
   const onClickRemove = () => {
     if (window.confirm('Do you really want to delete article?')) {
       dispatch(fetchRemovePost(id));
