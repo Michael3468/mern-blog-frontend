@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, Navigate, useParams, Link } from 'react-router-dom';
 
@@ -18,11 +18,11 @@ export const AddPost = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   // TODO import useState and others without react
-  const [text, setText] = React.useState('');
-  const [title, setTitle] = React.useState('');
-  const [tags, setTags] = React.useState('');
-  const [imageUrl, setImageUrl] = React.useState('');
-  const inputFileRef = React.useRef(null);
+  const [text, setText] = useState('');
+  const [title, setTitle] = useState('');
+  const [tags, setTags] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const inputFileRef = useRef(null);
 
   const isEditing = Boolean(id);
 
@@ -43,7 +43,7 @@ export const AddPost = () => {
     setImageUrl('');
   };
 
-  const onChange = React.useCallback((value) => {
+  const onChange = useCallback((value) => {
     setText(value);
   }, []);
 
@@ -69,7 +69,7 @@ export const AddPost = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (id) {
       axios
         .get(`/posts/${id}`)
@@ -86,7 +86,7 @@ export const AddPost = () => {
     }
   }, [id]);
 
-  const options = React.useMemo(
+  const options = useMemo(
     () => ({
       spellChecker: false,
       maxHeight: '400px',

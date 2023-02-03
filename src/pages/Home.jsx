@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ import {
 import { fetchLastComments } from '../redux/slices/comment';
 
 export const Home = () => {
-  const [activeTab, setActiveTab] = React.useState(null);
+  const [activeTab, setActiveTab] = useState(null);
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
   const lastComments = useSelector((state) => state.comments);
@@ -32,7 +32,7 @@ export const Home = () => {
 
   const { tagname } = useParams();
 
-  React.useEffect(() => {
+  useEffect(() => {
     switch (pathname) {
       case '/popular-posts':
         dispatch(fetchPostsByPopularity());
