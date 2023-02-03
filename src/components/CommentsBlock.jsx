@@ -11,6 +11,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 export const CommentsBlock = ({ items, children, isLoading = true }) => {
   return (
+    // TODO add redirect to post when click on comment
     <SideBlock title="Last Comments">
       <List>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (

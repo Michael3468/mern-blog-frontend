@@ -56,6 +56,7 @@ export const FullPost = () => {
       >
         <ReactMarkdown children={data.text} />
       </Post>
+      {/* TODO add '@username,' to AddComment input when click on username */}
       <CommentsBlock items={postComments.comments.items} isLoading={false}>
         {isAuth && <AddComment id={data._id} />}
       </CommentsBlock>
