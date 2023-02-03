@@ -33,15 +33,16 @@ export const Home = () => {
   const { tagname } = useParams();
 
   React.useEffect(() => {
-    // TODO switch case +
-    if (pathname === '/') {
-      dispatch(fetchPostsByDate());
-      setActiveTab(0);
-    } else if (pathname === '/popular-posts') {
-      dispatch(fetchPostsByPopularity());
-      setActiveTab(1);
+    switch (pathname) {
+      case '/popular-posts':
+        dispatch(fetchPostsByPopularity());
+        setActiveTab(1);
+        break;
+      default:
+        dispatch(fetchPostsByDate());
+        setActiveTab(0);
+        break;
     }
-    // TODO switch case -
 
     if (tagname) {
       dispatch(fetchPostsWithTagByDate(tagname));
