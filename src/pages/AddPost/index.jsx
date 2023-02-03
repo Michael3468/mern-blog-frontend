@@ -18,7 +18,6 @@ export const AddPost = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   // TODO import useState and others without react
-  const [isLoading, setLoading] = React.useState(false); // TODO isLoading
   const [text, setText] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [tags, setTags] = React.useState('');
@@ -50,8 +49,6 @@ export const AddPost = () => {
 
   const onSubmit = async () => {
     try {
-      setLoading(true);
-
       const fields = {
         title,
         text,
