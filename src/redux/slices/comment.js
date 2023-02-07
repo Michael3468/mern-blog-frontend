@@ -14,6 +14,14 @@ export const fetchCommentsByPostId = createAsyncThunk(
   }
 );
 
+export const fetchRemovePostComments = createAsyncThunk(
+  'comments/fetchRemovePostComments',
+  async (postId) => {
+    const { data } = await axios.delete(`/post-comments-remove/${postId}`);
+    return data;
+  }
+);
+
 const initialState = {
   comments: {
     items: [],
@@ -27,7 +35,7 @@ const commentsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchCommentsByPostId.pending]: (state) => {
-      // state.comments.items = [];
+      // state.comments.items = []; // TODO remove
       state.comments.status = 'loading';
     },
     [fetchCommentsByPostId.fulfilled]: (state, action) => {
@@ -48,6 +56,16 @@ const commentsSlice = createSlice({
     },
     [fetchLastComments.rejected]: (state) => {
       state.comments.items = [];
+      state.comments.status = 'error';
+    },
+
+    [fetchRemovePostComments.pending]: (state) => {
+      state.comments.status = 'loading';
+    },
+    [fetchRemovePostComments.fulfilled]: (state, action) => {
+      state.comments.status = 'loaded';
+    },
+    [fetchRemovePostComments.rejected]: (state) => {
       state.comments.status = 'error';
     },
   },
