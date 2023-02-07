@@ -22,11 +22,12 @@ export const Home = () => {
   const [activeTab, setActiveTab] = useState(null);
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
-  const lastComments = useSelector((state) => state.comments);
+  const lastComments = useSelector((state) => state.comments.comments);
   const { posts, tags } = useSelector((state) => state.posts);
 
   const isPostLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
+  const isCommentsLoading = lastComments.status === 'loading';
 
   const { pathname } = useLocation();
 
@@ -84,7 +85,7 @@ export const Home = () => {
         </Grid>
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
-          <CommentsBlock items={lastComments.comments.items} isLoading={false} />
+          <CommentsBlock items={lastComments.items} isLoading={isCommentsLoading} />
         </Grid>
       </Grid>
     </>
