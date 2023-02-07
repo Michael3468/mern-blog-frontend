@@ -1,20 +1,22 @@
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { PostSkeleton } from './Skeleton';
 import { UserInfo } from '../UserInfo';
 
+import { fetchRemovePostComments } from '../../redux/slices/comment';
+import { fetchRemovePost } from '../../redux/slices/post';
+
 import IconButton from '@mui/material/IconButton';
+import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
 import styles from './Post.module.scss';
 
-import { fetchRemovePost } from '../../redux/slices/post';
-
+// TODO rename id to postId
 export const Post = ({
   id,
   title,
@@ -30,14 +32,35 @@ export const Post = ({
   isEditable,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   if (isLoading) {
     return <PostSkeleton />;
   }
 
-  // TODO on Remove post remove its comments
-  const onClickRemove = () => {
+  const handleDeleteIconClick = () => {
     if (window.confirm('Do you really want to delete article?')) {
-      dispatch(fetchRemovePost(id));
+      const deletePost = new Promise((resolve, reject) => {
+        dispatch(fetchRemovePost(id))
+          .then((message) => {
+            console.log(message);
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+
+      const deletePostComments = new Promise((resolve, reject) => {
+        dispatch(fetchRemovePostComments(id))
+          .then((message) => {
+            console.log(message);
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+
+      Promise.all([deletePost, deletePostComments])
+        .then(() => navigate('/'))
+        .catch((err) => console.log(err));
     }
   };
 
@@ -50,7 +73,7 @@ export const Post = ({
               <EditIcon />
             </IconButton>
           </Link>
-          <IconButton onClick={onClickRemove} color="secondary">
+          <IconButton onClick={handleDeleteIconClick} color="secondary">
             <DeleteIcon />
           </IconButton>
         </div>
