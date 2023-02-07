@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Container from '@mui/material/Container';
 
@@ -10,7 +10,7 @@ import { fetchAuthMe } from './redux/slices/auth';
 function App() {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(fetchAuthMe());
   }, [dispatch]);
 
@@ -27,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/tags/:tagname" element={<Home />} />
+          <Route path='/comment-create' element={<FullPost />} />
         </Routes>
       </Container>
     </>
