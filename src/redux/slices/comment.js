@@ -35,7 +35,6 @@ const commentsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchCommentsByPostId.pending]: (state) => {
-      // state.comments.items = []; // TODO remove
       state.comments.status = 'loading';
     },
     [fetchCommentsByPostId.fulfilled]: (state, action) => {
