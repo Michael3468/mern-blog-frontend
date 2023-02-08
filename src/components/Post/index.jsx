@@ -29,6 +29,7 @@ export const Post = ({
   isFullPost,
   isLoading,
   isEditable,
+  setIsPostDeleted,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
+  // TODO add useState isPostDeleted on Home.jsx to update comments
   const handleDeleteIconClick = () => {
     if (window.confirm('Do you really want to delete article?')) {
       const deletePost = new Promise((resolve, reject) => {
@@ -58,7 +60,10 @@ export const Post = ({
       });
 
       Promise.all([deletePost, deletePostComments])
-        .then(() => navigate('/'))
+        .then(() => {
+          setIsPostDeleted(true);
+          navigate('/');
+        })
         .catch((err) => console.log(err));
     }
   };

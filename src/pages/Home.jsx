@@ -20,6 +20,7 @@ import { fetchLastComments } from '../redux/slices/comment';
 
 export const Home = () => {
   const [activeTab, setActiveTab] = useState(null);
+  const [isPostDeleted, setIsPostDeleted] = useState(false);
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
   const lastComments = useSelector((state) => state.comments.comments);
@@ -53,6 +54,14 @@ export const Home = () => {
     dispatch(fetchLastComments());
   }, [dispatch, pathname, tagname]);
 
+  useEffect(() => {
+    if (isPostDeleted) {
+      dispatch(fetchTags());
+      dispatch(fetchLastComments());
+      setIsPostDeleted(false);
+    }
+  }, [dispatch, isPostDeleted]);
+
   return (
     <>
       <Tabs value={activeTab} style={{ marginBottom: 15 }} aria-label="basic tabs example">
@@ -79,6 +88,7 @@ export const Home = () => {
                 commentsCount={obj.commentsCount}
                 tags={obj.tags}
                 isEditable={userData?._id === obj.user._id}
+                setIsPostDeleted={setIsPostDeleted}
               />
             )
           )}
