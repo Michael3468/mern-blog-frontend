@@ -73,6 +73,7 @@ export const AddPost = () => {
       axios
         .get(`/posts/${id}`)
         .then(({ data }) => {
+          // TODO combine set states
           setTitle(data.title);
           setText(data.text);
           setImageUrl(data.imageUrl);
@@ -132,6 +133,7 @@ export const AddPost = () => {
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
       />
+      {/* TODO do not add empty field like empty tag */}
       <TextField
         value={tags}
         onChange={(e) => setTags(e.target.value)}
