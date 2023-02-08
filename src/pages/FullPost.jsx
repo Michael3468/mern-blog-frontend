@@ -51,7 +51,7 @@ export const FullPost = () => {
   return (
     <>
       <Post
-        id={data._id}
+        postId={data._id}
         title={data.title}
         imageUrl={data.imageUrl ? `${process.env.REACT_APP_SERVER_URL}${data.imageUrl}` : ''}
         user={data.user}
@@ -66,6 +66,7 @@ export const FullPost = () => {
       </Post>
       {/* TODO add '@username,' to AddComment input when click on username */}
       <CommentsBlock items={postComments.comments.items} isLoading={false}>
+        {/* TODO rename id to postId */}
         {isAuth && <AddComment id={data._id} setIsCommentAdded={setIsCommentAdded} />}
       </CommentsBlock>
     </>

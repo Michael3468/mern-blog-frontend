@@ -16,9 +16,8 @@ import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
 import styles from './Post.module.scss';
 
-// TODO rename id to postId
 export const Post = ({
-  id,
+  postId,
   title,
   createdAt,
   imageUrl,
@@ -30,6 +29,7 @@ export const Post = ({
   isFullPost,
   isLoading,
   isEditable,
+  setIsPostDeleted,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,10 +38,11 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
+  // TODO add useState isPostDeleted on Home.jsx to update comments
   const handleDeleteIconClick = () => {
     if (window.confirm('Do you really want to delete article?')) {
       const deletePost = new Promise((resolve, reject) => {
-        dispatch(fetchRemovePost(id))
+        dispatch(fetchRemovePost(postId))
           .then((message) => {
             console.log(message);
             resolve();
@@ -50,7 +51,7 @@ export const Post = ({
       });
 
       const deletePostComments = new Promise((resolve, reject) => {
-        dispatch(fetchRemovePostComments(id))
+        dispatch(fetchRemovePostComments(postId))
           .then((message) => {
             console.log(message);
             resolve();
@@ -59,7 +60,10 @@ export const Post = ({
       });
 
       Promise.all([deletePost, deletePostComments])
-        .then(() => navigate('/'))
+        .then(() => {
+          setIsPostDeleted(true);
+          navigate('/');
+        })
         .catch((err) => console.log(err));
     }
   };
@@ -68,7 +72,7 @@ export const Post = ({
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${id}/edit`}>
+          <Link to={`/posts/${postId}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -89,7 +93,7 @@ export const Post = ({
         <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>
           <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+            {isFullPost ? title : <Link to={`/posts/${postId}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (
