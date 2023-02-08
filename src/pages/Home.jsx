@@ -70,7 +70,7 @@ export const Home = () => {
               <Post key={index} isLoading={true} />
             ) : (
               <Post
-                id={obj._id}
+                postId={obj._id}
                 title={obj.title}
                 imageUrl={obj.imageUrl ? `${process.env.REACT_APP_SERVER_URL}${obj.imageUrl}` : ''}
                 user={obj.user}
