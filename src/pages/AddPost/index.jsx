@@ -47,11 +47,14 @@ export const AddPost = () => {
   }, []);
 
   const onSubmit = async () => {
+    const isTags = tags.trim().length > 0;
+    const tagsArray = isTags ? tags.split(',').map((item) => item.trim()) : [];
+
     try {
       const fields = {
         title,
         text,
-        tags: tags.split(',').map((item) => item.trim()),
+        tags: isTags ? tagsArray : [],
         imageUrl,
       };
 
@@ -64,7 +67,15 @@ export const AddPost = () => {
       navigate(`/posts/${_id}`);
     } catch (err) {
       console.warn(err);
-      alert('An error occurred when creating an post');
+      alert('An error occurred when creating post');
+    }
+  };
+
+  const handleTagsFieldChange = (event) => {
+    const tagsFieldValue = event.target.value;
+    const tagsValue = tagsFieldValue.trim() !== '' ? tagsFieldValue.trim() : '';
+    if (tagsValue) {
+      setTags(tagsValue);
     }
   };
 
@@ -133,10 +144,9 @@ export const AddPost = () => {
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
       />
-      {/* TODO do not add empty field like empty tag */}
       <TextField
         value={tags}
-        onChange={(e) => setTags(e.target.value)}
+        onChange={handleTagsFieldChange}
         classes={{ root: styles.tags }}
         variant="standard"
         placeholder="Add tags separated with comma"
