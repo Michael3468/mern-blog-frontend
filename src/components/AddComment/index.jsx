@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
-export const AddComment = ({ id }) => {
+export const AddComment = ({ id, setIsCommentAdded }) => {
   const userData = useSelector((state) => state.auth.data);
   const [comment, setComment] = useState('');
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ export const AddComment = ({ id }) => {
       await axios.post('/comment-create', fields);
 
       setComment('');
+      setIsCommentAdded(true);
       dispatch(fetchCommentsByPostId(id));
     } catch (err) {
       console.warn(err);
@@ -47,6 +48,7 @@ export const AddComment = ({ id }) => {
             fullWidth
             onChange={(e) => setComment(e.target.value)}
           />
+          {/* TODO rename handleClick to handleAddCommentClick */}
           <Button disabled={!(comment.length > 0)} onClick={handleClick} variant="contained">
             Add comment
           </Button>

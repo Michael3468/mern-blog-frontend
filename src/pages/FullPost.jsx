@@ -16,6 +16,7 @@ export const FullPost = () => {
   const userData = useSelector((state) => state.auth.data);
   const postComments = useSelector((state) => state.comments);
   const [data, setData] = useState('');
+  const [isCommentAdded, setIsCommentAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const isAuth = useSelector(selectIsAuth);
@@ -36,6 +37,13 @@ export const FullPost = () => {
     dispatch(fetchCommentsByPostId(id));
   }, [id, dispatch]);
 
+  useEffect(() => {
+    if (isCommentAdded) {
+      setData({ ...data, commentsCount: data.commentsCount + 1 });
+      setIsCommentAdded(false);
+    }
+  }, [isCommentAdded, data]);
+
   if (isLoading) {
     return <Post isLoading={isLoading} isFullPost />;
   }
@@ -49,7 +57,7 @@ export const FullPost = () => {
         user={data.user}
         createdAt={getDayMonthYear(data.createdAt)}
         viewsCount={data.viewsCount}
-        commentsCount={3}
+        commentsCount={data.commentsCount}
         tags={data.tags}
         isEditable={userData?._id === data.user._id}
         isFullPost
@@ -58,7 +66,7 @@ export const FullPost = () => {
       </Post>
       {/* TODO add '@username,' to AddComment input when click on username */}
       <CommentsBlock items={postComments.comments.items} isLoading={false}>
-        {isAuth && <AddComment id={data._id} />}
+        {isAuth && <AddComment id={data._id} setIsCommentAdded={setIsCommentAdded} />}
       </CommentsBlock>
     </>
   );
