@@ -38,7 +38,6 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
-  // TODO add useState isPostDeleted on Home.jsx to update comments
   const handleDeleteIconClick = () => {
     if (window.confirm('Do you really want to delete article?')) {
       const deletePost = new Promise((resolve, reject) => {
