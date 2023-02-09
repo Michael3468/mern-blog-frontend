@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-
-import styles from './Header.module.scss';
-import Container from '@mui/material/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectIsAuth } from '../../redux/slices/auth';
+
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+
+import styles from './Header.module.scss';
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,6 @@ export const Header = () => {
       <Container maxWidth="lg">
         <div className={styles.inner}>
           <Link className={styles.logo} to="/">
-            {/* TODO fix paddings */}
             <div>MERN BLOG</div>
           </Link>
           <div className={styles.buttons}>
