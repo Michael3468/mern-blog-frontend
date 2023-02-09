@@ -89,20 +89,20 @@ export const AddPost = () => {
       axios
         .get(`/posts/${id}`)
         .then(({ data }) => {
-          setPostData({
-            ...postData,
+          setPostData((prev) => ({
+            ...prev,
             title: data.title,
             text: data.text,
             tags: data.tags.join(','),
             imageUrl: data.imageUrl,
-          });
+          }));
         })
         .catch((err) => {
           console.warn(err);
           alert('An error occurred when getting post');
         });
     }
-  }, [id]); // if add 'postData' to dependency array, viewsCount in PostModel increments many times
+  }, [id]);
 
   const options = useMemo(
     () => ({
