@@ -60,7 +60,12 @@ export const Post = ({
 
       Promise.all([deletePost, deletePostComments])
         .then(() => {
-          setIsPostDeleted(true);
+          // cause <FullPost /> don't pass this prop into <Post /> +
+          if (typeof setIsPostDeleted === 'function') {
+            setIsPostDeleted(true);
+          }
+          // cause <FullPost /> don't pass this prop into <Post /> -
+
           navigate('/');
         })
         .catch((err) => console.log(err));
