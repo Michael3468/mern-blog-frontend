@@ -38,7 +38,6 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
-  // TODO add useState isPostDeleted on Home.jsx to update comments
   const handleDeleteIconClick = () => {
     if (window.confirm('Do you really want to delete article?')) {
       const deletePost = new Promise((resolve, reject) => {
@@ -61,7 +60,12 @@ export const Post = ({
 
       Promise.all([deletePost, deletePostComments])
         .then(() => {
-          setIsPostDeleted(true);
+          // cause <FullPost /> don't pass this prop into <Post /> +
+          if (typeof setIsPostDeleted === 'function') {
+            setIsPostDeleted(true);
+          }
+          // cause <FullPost /> don't pass this prop into <Post /> -
+
           navigate('/');
         })
         .catch((err) => console.log(err));

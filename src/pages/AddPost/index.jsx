@@ -17,10 +17,12 @@ export const AddPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
-  const [text, setText] = useState('');
-  const [title, setTitle] = useState('');
-  const [tags, setTags] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [postData, setPostData] = useState({
+    title: '',
+    tags: '',
+    text: '',
+    imageUrl: '',
+  });
   const inputFileRef = useRef(null);
 
   const isEditing = Boolean(id);
@@ -31,7 +33,7 @@ export const AddPost = () => {
       const file = event.target.files[0];
       formData.append('image', file);
       const { data } = await axios.post('/upload', formData);
-      setImageUrl(data.url);
+      setPostData({ ...postData, imageUrl: data.url });
     } catch (err) {
       console.warn(err);
       alert('An error occurred while uploading the file');
@@ -39,23 +41,26 @@ export const AddPost = () => {
   };
 
   const onClickRemoveImage = () => {
-    setImageUrl('');
+    setPostData({ ...postData, imageUrl: '' });
   };
 
-  const onChange = useCallback((value) => {
-    setText(value);
-  }, []);
+  const onChange = useCallback(
+    (value) => {
+      setPostData({ ...postData, text: value });
+    },
+    [postData]
+  );
 
   const onSubmit = async () => {
-    const isTags = tags.trim().length > 0;
-    const tagsArray = isTags ? tags.split(',').map((item) => item.trim()) : [];
+    const isTags = postData.tags.trim().length > 0;
+    const tagsArray = isTags ? postData.tags.split(',').map((item) => item.trim()) : [];
 
     try {
       const fields = {
-        title,
-        text,
+        title: postData.title,
+        text: postData.text,
         tags: isTags ? tagsArray : [],
-        imageUrl,
+        imageUrl: postData.imageUrl,
       };
 
       const { data } = isEditing
@@ -75,7 +80,7 @@ export const AddPost = () => {
     const tagsFieldValue = event.target.value;
     const tagsValue = tagsFieldValue.trim() !== '' ? tagsFieldValue.trim() : '';
     if (tagsValue) {
-      setTags(tagsValue);
+      setPostData({ ...postData, tags: tagsValue });
     }
   };
 
@@ -84,18 +89,20 @@ export const AddPost = () => {
       axios
         .get(`/posts/${id}`)
         .then(({ data }) => {
-          // TODO combine set states
-          setTitle(data.title);
-          setText(data.text);
-          setImageUrl(data.imageUrl);
-          setTags(data.tags.join(','));
+          setPostData({
+            ...postData,
+            title: data.title,
+            text: data.text,
+            tags: data.tags.join(','),
+            imageUrl: data.imageUrl,
+          });
         })
         .catch((err) => {
           console.warn(err);
           alert('An error occurred when getting post');
         });
     }
-  }, [id]);
+  }, [id]); // if add 'postData' to dependency array, viewsCount in PostModel increments many times
 
   const options = useMemo(
     () => ({
@@ -122,14 +129,14 @@ export const AddPost = () => {
         Upload image
       </Button>
       <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
-      {imageUrl && (
+      {postData.imageUrl && (
         <>
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
             Delete
           </Button>
           <img
             className={styles.image}
-            src={`${process.env.REACT_APP_SERVER_URL}${imageUrl}`}
+            src={`${process.env.REACT_APP_SERVER_URL}${postData.imageUrl}`}
             alt="Uploaded"
           />
         </>
@@ -140,19 +147,24 @@ export const AddPost = () => {
         classes={{ root: styles.title }}
         variant="standard"
         placeholder="Add post title..."
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={postData.title}
+        onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         fullWidth
       />
       <TextField
-        value={tags}
+        value={postData.tags}
         onChange={handleTagsFieldChange}
         classes={{ root: styles.tags }}
         variant="standard"
         placeholder="Add tags separated with comma"
         fullWidth
       />
-      <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
+      <SimpleMDE
+        className={styles.editor}
+        value={postData.text}
+        onChange={onChange}
+        options={options}
+      />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
           {isEditing ? 'Save' : 'Publish'}
