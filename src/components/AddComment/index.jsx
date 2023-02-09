@@ -15,7 +15,7 @@ export const AddComment = ({ id, setIsCommentAdded }) => {
   const [comment, setComment] = useState('');
   const dispatch = useDispatch();
 
-  const handleClick = async () => {
+  const handleAddCommentClick = async () => {
     try {
       const fields = {
         postId: id,
@@ -48,8 +48,7 @@ export const AddComment = ({ id, setIsCommentAdded }) => {
             fullWidth
             onChange={(e) => setComment(e.target.value)}
           />
-          {/* TODO rename handleClick to handleAddCommentClick */}
-          <Button disabled={!(comment.length > 0)} onClick={handleClick} variant="contained">
+          <Button disabled={!(comment.length > 0)} onClick={handleAddCommentClick} variant="contained">
             Add comment
           </Button>
         </div>
