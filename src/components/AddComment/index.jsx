@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
-export const AddComment = ({ id, setIsCommentAdded }) => {
+export const AddComment = ({ postId, setIsCommentAdded }) => {
   const userData = useSelector((state) => state.auth.data);
   const [comment, setComment] = useState('');
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const AddComment = ({ id, setIsCommentAdded }) => {
   const handleAddCommentClick = async () => {
     try {
       const fields = {
-        postId: id,
+        postId,
         user: userData._id,
         text: comment.trim(),
       };
@@ -27,7 +27,7 @@ export const AddComment = ({ id, setIsCommentAdded }) => {
 
       setComment('');
       setIsCommentAdded(true);
-      dispatch(fetchCommentsByPostId(id));
+      dispatch(fetchCommentsByPostId(postId));
     } catch (err) {
       console.warn(err);
       alert('An error occurred when creating comment');
@@ -48,7 +48,11 @@ export const AddComment = ({ id, setIsCommentAdded }) => {
             fullWidth
             onChange={(e) => setComment(e.target.value)}
           />
-          <Button disabled={!(comment.length > 0)} onClick={handleAddCommentClick} variant="contained">
+          <Button
+            disabled={!(comment.length > 0)}
+            onClick={handleAddCommentClick}
+            variant="contained"
+          >
             Add comment
           </Button>
         </div>

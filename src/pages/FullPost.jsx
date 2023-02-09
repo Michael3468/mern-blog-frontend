@@ -66,8 +66,7 @@ export const FullPost = () => {
       </Post>
       {/* TODO add '@username,' to AddComment input when click on username */}
       <CommentsBlock items={postComments.comments.items} isLoading={false}>
-        {/* TODO rename id to postId */}
-        {isAuth && <AddComment id={data._id} setIsCommentAdded={setIsCommentAdded} />}
+        {isAuth && <AddComment postId={data._id} setIsCommentAdded={setIsCommentAdded} />}
       </CommentsBlock>
     </>
   );
