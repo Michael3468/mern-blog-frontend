@@ -1,6 +1,5 @@
 import styles from './UserInfo.module.scss';
 
-// TODO add noavatar.png
 export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
   return (
     <div className={styles.root}>
