@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from '../../axios';
@@ -10,9 +10,15 @@ import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
-export const AddComment = ({ postId, setIsCommentAdded }) => {
+export const AddComment = ({
+  postId,
+  setIsCommentAdded,
+  isCommentClicked,
+  setCommentClicked,
+  userName = '',
+}) => {
   const userData = useSelector((state) => state.auth.data);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState(userName !== '' ? `@${userName}, ` : '');
   const dispatch = useDispatch();
 
   const handleAddCommentClick = async () => {
@@ -34,6 +40,17 @@ export const AddComment = ({ postId, setIsCommentAdded }) => {
     }
   };
 
+  useEffect(() => {
+    if (userName !== '' && isCommentClicked) {
+      if (comment.length === 0) {
+        setComment(`@${userName}, `);
+      } else {
+        setComment((prev) => `@${userName}, ${prev}`);
+      }
+      setCommentClicked(false);
+    }
+  }, [userName, isCommentClicked, setCommentClicked, comment]);
+
   return (
     <>
       <div className={styles.root}>
@@ -49,7 +66,9 @@ export const AddComment = ({ postId, setIsCommentAdded }) => {
             onChange={(e) => setComment(e.target.value)}
           />
           <Button
-            disabled={!(comment.length > 0)}
+            disabled={
+              comment.length === 0 || (comment.trim() === `@${userName},` && comment.length > 0)
+            }
             onClick={handleAddCommentClick}
             variant="contained"
           >

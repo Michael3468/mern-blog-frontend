@@ -18,6 +18,8 @@ export const FullPost = () => {
   const [data, setData] = useState('');
   const [isCommentAdded, setIsCommentAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userName, setUserName] = useState('');
+  const [isCommentClicked, setCommentClicked] = useState(false);
   const { id } = useParams();
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
@@ -64,9 +66,21 @@ export const FullPost = () => {
       >
         <ReactMarkdown children={data.text} />
       </Post>
-      {/* TODO add '@username,' to AddComment input when click on username */}
-      <CommentsBlock items={postComments.comments.items} isLoading={false}>
-        {isAuth && <AddComment postId={data._id} setIsCommentAdded={setIsCommentAdded} />}
+      <CommentsBlock
+        items={postComments.comments.items}
+        isLoading={false}
+        setUserName={setUserName}
+        setCommentClicked={setCommentClicked}
+      >
+        {isAuth && (
+          <AddComment
+            postId={data._id}
+            setIsCommentAdded={setIsCommentAdded}
+            userName={userName}
+            isCommentClicked={isCommentClicked}
+            setCommentClicked={setCommentClicked}
+          />
+        )}
       </CommentsBlock>
     </>
   );

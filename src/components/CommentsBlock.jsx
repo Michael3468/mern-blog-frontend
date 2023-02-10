@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { SideBlock } from './SideBlock';
 import ListItem from '@mui/material/ListItem';
@@ -10,7 +10,22 @@ import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Skeleton from '@mui/material/Skeleton';
 
-export const CommentsBlock = ({ items, children, isLoading = true }) => {
+export const CommentsBlock = ({
+  items,
+  setUserName,
+  setCommentClicked,
+  children,
+  isLoading = true,
+}) => {
+  const location = useLocation();
+
+  const handleCommentClick = (event) => {
+    if (location.pathname.includes('/posts/')) {
+      setUserName(event.target.textContent);
+      setCommentClicked(true);
+    }
+  };
+
   return (
     <SideBlock title="Last Comments">
       <List>
@@ -34,7 +49,11 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
                   to={`/posts/${obj.postId}`}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
-                  <ListItemText primary={obj.user.fullName} secondary={obj.text} />
+                  <ListItemText
+                    primary={obj.user.fullName}
+                    secondary={obj.text}
+                    onClick={handleCommentClick}
+                  />
                 </Link>
               )}
             </ListItem>
