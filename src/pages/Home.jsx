@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { getDayMonthYear } from '../libs/getDayMonthYear';
+import { formatDate } from '../libs/formatDate';
 import {
   fetchPostsByDate,
   fetchPostsByPopularity,
@@ -83,7 +83,7 @@ export const Home = () => {
                 title={obj.title}
                 imageUrl={obj.imageUrl ? `${process.env.REACT_APP_SERVER_URL}${obj.imageUrl}` : ''}
                 user={obj.user}
-                createdAt={getDayMonthYear(obj.createdAt)}
+                createdAt={formatDate(obj.createdAt)}
                 viewsCount={obj.viewsCount}
                 commentsCount={obj.commentsCount}
                 tags={obj.tags}

@@ -8,7 +8,7 @@ import { AddComment } from '../components/AddComment';
 import { CommentsBlock } from '../components/CommentsBlock';
 import axios from '../axios';
 
-import { getDayMonthYear } from '../libs/getDayMonthYear';
+import { formatDate } from '../libs/formatDate';
 import { selectIsAuth } from '../redux/slices/auth';
 import { fetchCommentsByPostId } from '../redux/slices/comment';
 
@@ -57,7 +57,7 @@ export const FullPost = () => {
         title={data.title}
         imageUrl={data.imageUrl ? `${process.env.REACT_APP_SERVER_URL}${data.imageUrl}` : ''}
         user={data.user}
-        createdAt={getDayMonthYear(data.createdAt)}
+        createdAt={formatDate(data.createdAt)}
         viewsCount={data.viewsCount}
         commentsCount={data.commentsCount}
         tags={data.tags}

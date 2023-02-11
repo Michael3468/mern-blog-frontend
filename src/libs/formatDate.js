@@ -1,8 +1,8 @@
 /**
- * getDayMonthYear
+ * formatDate
  * @param {Date} date
  */
-export const getDayMonthYear = (date) => {
+export const formatDate = (date) => {
   const d = new Date(date);
 
   const monthNames = [
@@ -20,5 +20,5 @@ export const getDayMonthYear = (date) => {
     'Dec',
   ];
 
-  return `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`;
+  return `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 };
